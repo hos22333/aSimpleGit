@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Wall Penstocks</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      padding: 2rem;
+      background-color: #f8f9fa;
+    }
+
+    .card {
+      margin-bottom: 1.5rem;
+    }
+
+    .preview-img {
+      max-width: 100%;
+      max-height: 200px;
+    }
+
+    .btn {
+      min-width: 120px;
+    }
+
+    .data-name {
+      font-weight: 500;
+      padding-top: 0.4rem;
+    }
+
+    input.form-control {
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4 text-center">Wall Penstocks</h1>
+
+    <div class="row">
+      <!-- Input Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">Inputs</div>
+          <div class="card-body">
+            <form id="inputForm">
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_Opening_Height (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_Opening_Height" value="1000" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_Opening_Width (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_Opening_Width" value="1000" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_PL_Th (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_PL_Th" value="6" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_Stif_W_Per_M (KG)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_Stif_W_Per_M" value="8" style="color: black;"  />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_Frame_Other_PLs (KG)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_Frame_Other_PLs" value="10" style="color: black;"  />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_Gate_Margin_Width (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_Gate_Margin_Width" value="130" style="color: black;"  />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_Gate_Margin_Height (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_Gate_Margin_Height" value="50" style="color: black;"  />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_Gate_Th (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_Gate_Th" value="6" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_Gate_Other_PLs (KG)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_Gate_Other_PLs" value="10" style="color: black;"  />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">PNwa_HeadStock (KG)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="PNwa_HeadStock" value="48" style="color: black;"  />
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white">Outputs</div>
+          <div class="card-body">
+
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Frame_Weight (KG)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Frame_Weight" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Gate_Weight (KG)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Gate_Weight" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Total_Weight (KG)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Total_Weight" value="0" />
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- Picture Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-info text-white">Picture</div>
+          <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+            <img src="#" alt="Diagram" class="preview-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+        <div class="text-center mt-2">
+          <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+      <button id="calculatebtn" class="btn btn-primary me-3">Calculate</button>
+      
+      <button id="reportbtn" class="btn btn-secondary" onclick="generateWord()">Report</button>
+      <button id="Drawing1" class="btn btn-success " onclick="downloadDXF()">AutoCAD General Drawing</button>
+
+      
+    </div>
+  </div>
+  <br>
+  <br>
+
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.0/docx.umd.min.js"></script>
+
+
+  <script>
+    async function downloadDXF() {
+      const varA = document.getElementsByName('PNwa_Opening_Width')[0].value;
+      const varB = document.getElementsByName('PNwa_Opening_Height')[0].value;
+      const spinner = document.getElementById('loadingSpinner');
+
+      spinner.style.display = "block";
+
+      const url = `https://f026-190014287304.europe-west1.run.app/?varA=${encodeURIComponent(varA)}&varB=${encodeURIComponent(varB)}`;
+
+      // Open the URL in a new tab
+      window.open(url, '_blank');
+
+      // Stop spinner immediately after opening new tab
+      spinner.style.display = "none";
+
+      // --- Logging to Google Sheets ---
+      const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+      const oStrType = "PNwa";
+
+      const inputData2 = {
+        oStrIn: "PNwa_Opening_Width: " + parseFloat(varA) +
+                ", PNwa_Opening_Height: " + parseFloat(varB),
+        oStrOut: "Drawing"
+      };
+
+      const payload2 = { oStrType, ...inputData2 };
+
+      try {
+        const response = await fetch(apiUrl2, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload2),
+        });
+
+        if (!response.ok) {
+          console.error("Logging failed:", await response.text());
+        }
+
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Failed to log the request.");
+      }
+    }
+  </script>
+
+  
+
+
+  <script>
+
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+      const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+      const reqType = "PNwa";
+      const spinner = document.getElementById('loadingSpinner');
+      spinner.style.display = 'inline-block';
+
+      const inputData = {
+        PNwa_Opening_Height:      parseFloat(document.querySelector('input[name="PNwa_Opening_Height"]').value),
+        PNwa_Opening_Width:       parseFloat(document.querySelector('input[name="PNwa_Opening_Width"]').value),
+        PNwa_PL_Th:               parseFloat(document.querySelector('input[name="PNwa_PL_Th"]').value),
+        PNwa_Stif_W_Per_M:        parseFloat(document.querySelector('input[name="PNwa_Stif_W_Per_M"]').value),
+        PNwa_Frame_Other_PLs:     parseFloat(document.querySelector('input[name="PNwa_Frame_Other_PLs"]').value),
+        PNwa_Gate_Margin_Width:   parseFloat(document.querySelector('input[name="PNwa_Gate_Margin_Width"]').value),
+        PNwa_Gate_Margin_Height:  parseFloat(document.querySelector('input[name="PNwa_Gate_Margin_Height"]').value),
+        PNwa_Gate_Th:             parseFloat(document.querySelector('input[name="PNwa_Gate_Th"]').value),
+        PNwa_Gate_Other_PLs:      parseFloat(document.querySelector('input[name="PNwa_Gate_Other_PLs"]').value),
+        PNwa_HeadStock:           parseFloat(document.querySelector('input[name="PNwa_HeadStock"]').value),
+      };
+
+      const payload = { reqType, ...inputData };
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+        const result = await response.json();
+        document.querySelector('input[name="Frame_Weight"]').value = result.Frame_Weight || "0";
+        document.querySelector('input[name="Gate_Weight"]').value = result.Gate_Weight || "0";
+        document.querySelector('input[name="Total_Weight"]').value = result.Total_Weight || "0";
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Failed to fetch result.");
+      } finally {
+        spinner.style.display = 'none';
+      }
+
+
+
+
+
+      const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+      const oStrType = "PNwa";
+
+      const inputData2 = {
+        oStrIn:
+          "PNwa_Opening_Height: " +
+          parseFloat(document.querySelector('input[name="PNwa_Opening_Height"]').value).toString() +
+          ", PNwa_Opening_Width: " +
+          parseFloat(document.querySelector('input[name="PNwa_Opening_Width"]').value).toString() +
+          ", PNwa_PL_Th: " +
+          parseFloat(document.querySelector('input[name="PNwa_PL_Th"]').value).toString() +
+          ", PNwa_Stif_W_Per_M: " +
+          parseFloat(document.querySelector('input[name="PNwa_Stif_W_Per_M"]').value).toString() +
+          ", PNwa_Frame_Other_PLs: " +
+          parseFloat(document.querySelector('input[name="PNwa_Frame_Other_PLs"]').value).toString() +
+          ", PNwa_Gate_Margin_Width: " +
+          parseFloat(document.querySelector('input[name="PNwa_Gate_Margin_Width"]').value).toString() +
+          ", PNwa_Gate_Margin_Height: " +
+          parseFloat(document.querySelector('input[name="PNwa_Gate_Margin_Height"]').value).toString() +
+          ", PNwa_Gate_Th: " +
+          parseFloat(document.querySelector('input[name="PNwa_Gate_Th"]').value).toString() +
+          ", PNwa_Gate_Other_PLs: " +
+          parseFloat(document.querySelector('input[name="PNwa_Gate_Other_PLs"]').value).toString() +
+          ", PNwa_HeadStock: " +
+          parseFloat(document.querySelector('input[name="PNwa_HeadStock"]').value).toString(),
+        oStrOut:
+          "Frame_Weight: " +
+          parseFloat(document.querySelector('input[name="Frame_Weight"]').value).toString() +
+          ", Gate_Weight: " +
+          parseFloat(document.querySelector('input[name="Gate_Weight"]').value).toString() +
+          ", Total_Weight" +
+          parseFloat(document.querySelector('input[name="Total_Weight"]').value).toString(),
+        
+      };
+
+      const payload2 = { oStrType, ...inputData2 };
+
+      try {
+        const response = await fetch(apiUrl2, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload2),
+        });
+
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Failed to fetch result.");
+      } 
+
+
+
+    });
+
+  </script>
+
+  <!-- WORD FILE -->
+    <script src="https://unpkg.com/docx@8.4.0/build/index.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+      // Generate Word Document
+      async function generateWord() {
+        const {
+          Document, Packer, Paragraph, TextRun,
+          Table, TableRow, TableCell, WidthType
+        } = window.docx;
+
+        const doc = new Document({
+          sections: [{
+            properties: {},
+            children: [
+              new Paragraph({
+                children: [new TextRun({
+                  text: "Wall Penstocks Calculation Summary",
+                  bold: true,
+                  color: "2E74B5",
+                  size: 28
+                })]
+              }),
+              new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: [
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 1", bold: true, color: "FFFFFF" }))]
+                      }),
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 2", bold: true, color: "FFFFFF" }))]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_Opening_Height (mm)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_Opening_Height"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_Opening_Width (mm)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_Opening_Width"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_PL_Th (mm)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_PL_Th"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_Stif_W_Per_M (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_Stif_W_Per_M"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_Frame_Other_PLs (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_Frame_Other_PLs"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_Gate_Margin_Width (mm)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_Gate_Margin_Width"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_Gate_Margin_Height (mm)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_Gate_Margin_Height"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_Gate_Th (mm)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_Gate_Th"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_Gate_Other_PLs (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_Gate_Other_PLs"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("PNwa_HeadStock (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="PNwa_HeadStock"]').value)]
+                      }),
+                    ]
+                  }),
+                ]
+              }),
+
+              new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: [
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 1", bold: true, color: "FFFFFF" }))]
+                      }),
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 2", bold: true, color: "FFFFFF" }))]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Frame_Weight (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="Frame_Weight"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Gate_Weight (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="Gate_Weight"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Total_Weight (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="Total_Weight"]').value)]
+                      }),
+                    ]
+                  }),
+                ]
+              })
+
+            ]
+          }]
+        });
+
+        const blob = await Packer.toBlob(doc);
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Wall_Penstocks.docx";
+        link.click();
+      }
+
+      
+    </script>
+    
+  <!-- WORD FILE -->
+
+
+</body>
+</html>

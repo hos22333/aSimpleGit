@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}View Logs - My Project{% endblock %}
+
+{% block content %}
+<h2>Page 1 Submission Logs</h2>
+
+<div class="card">
+    <div class="card-header">
+        <h4>All Calculation Submissions</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Timestamp</th>
+                        <th>Inputs</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.user.username }}</td>
+                        <td>{{ log.timestamp|date:"M d, Y H:i:s" }}</td>
+                        <td>
+                            <small>
+                                {% for i in "12345678910" %}
+                                Input {{ forloop.counter }}: {{ log.input|slice:forloop.counter0|first }}<br>
+                                {% endfor %}
+                            </small>
+                        </td>
+                        <td><strong>{{ log.result }}</strong></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No logs found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

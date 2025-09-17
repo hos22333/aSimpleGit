@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+
+{% block title %}Grit Removal - My Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Grit Removal</h1>
+
+    <div class="row">
+        <!-- Input Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Inputs</div>
+                <div class="card-body">
+                    <form id="inputForm">
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">N of Channels</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="nofchannels" value="2" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Channel Width</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="channelwidth" value="2.5" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Civil Width</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="civilwidth" value="0.4" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Bridge Length</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="bridgelength" value="6" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Wheel Diameter</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="wheeldiameter" value="0.25" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Friction</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="friction" value="0.3" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Velocity</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="velocity" value="0.05" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Safety Factor</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="safetyfactor" value="1.5" style="color: blue;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">Outputs</div>
+                <div class="card-body">
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Weight Total (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="weighttotal" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Weight steel</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="weightsteel" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Weight St.St</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="weightstst" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <br>
+                    
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Driving Power (kW)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="drivingpower" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">MotorTorq (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="MotorTorq" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">MotorTorqLimiter (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="MotorTorqLimiter" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Driving Motor Speed (rpm)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="drivingmotorspeed" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">GearboxTorq (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="GearboxTorq" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Lifting Power (kW)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="liftingpower" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Lifting MotorTorq (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="LiftingMotorTorq" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Lifting MotorTorqLimiter (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="LiftingMotorTorqLimiter" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Lifting Motor Speed (rpm)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="liftingmotorspeed" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Lifting GearboxTorq (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="LiftingGearboxTorq" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Picture Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">Picture</div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+                    <img src="#" alt="Diagram" class="preview-img" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+    <div class="text-center mt-2">
+        <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+        <button id="calculatebtn" class="btn btn-primary">Calculate</button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+        const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+        const reqType = "GR";
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.style.display = 'inline-block';
+
+        const inputData = {
+            GR_n_channel: parseFloat(document.querySelector('input[name="nofchannels"]').value),
+            GR_channel_width: parseFloat(document.querySelector('input[name="channelwidth"]'.value)),
+            GR_civil_width: parseFloat(document.querySelector('input[name="civilwidth"]').value),
+            GR_bridge_length: parseFloat(document.querySelector('input[name="bridgelength"]').value),
+            GR_wheel_diameter: parseFloat(document.querySelector('input[name="wheeldiameter"]').value),
+            GR_Friction: parseFloat(document.querySelector('input[name="friction"]').value),
+            GR_Velocity: parseFloat(document.querySelector('input[name="velocity"]').value),
+            GR_FOS: parseFloat(document.querySelector('input[name="safetyfactor"]').value),
+        };
+
+        const payload = { reqType, ...inputData };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+            const result = await response.json();
+            document.querySelector('input[name="weighttotal"]').value = result.GR_out3 || "0";
+            document.querySelector('input[name="drivingpower"]').value = result.GR_out1 || "0";
+            document.querySelector('input[name="drivingmotorspeed"]').value = result.GR_out2 || "0";
+            document.querySelector('input[name="weightsteel"]').value = result.GR_out4 || "0";
+            document.querySelector('input[name="weightstst"]'.value) = result.GR_out5 || "0";
+            document.querySelector('input[name="liftingpower"]').value = result.GR_out6 || "0";
+            document.querySelector('input[name="MotorTorq"]').value = result.GR_out7 || "0";
+            document.querySelector('input[name="MotorTorqLimiter"]').value = result.GR_out8 || "0";
+            document.querySelector('input[name="GearboxTorq"]').value = result.GR_out9 || "0";
+            document.querySelector('input[name="LiftingMotorTorq"]').value = result.GR_out10 || "0";
+            document.querySelector('input[name="LiftingMotorTorqLimiter"]').value = result.GR_out11 || "0";
+            document.querySelector('input[name="liftingmotorspeed"]').value = result.GR_out12 || "0";
+            document.querySelector('input[name="LiftingGearboxTorq"]').value = result.GR_out13 || "0";
+        } catch (error) {
+            console.error("API Error:", error);
+            alert("Failed to fetch result.");
+        } finally {
+            spinner.style.display = 'none';
+        }
+
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "GR";
+
+        const inputData2 = {
+            oStrIn:
+                "n of channels: " +
+                parseFloat(document.querySelector('input[name="nofchannels"]').value).toString() +
+                ", channel width: " +
+                parseFloat(document.querySelector('input[name="channelwidth"]').value).toString() +
+                ", civil width:" +
+                parseFloat(document.querySelector('input[name="civilwidth"]').value).toString() +
+                ", bridge length:" +
+                parseFloat(document.querySelector('input[name="bridgelength"]').value).toString() +
+                ", wheel diameter:" +
+                parseFloat(document.querySelector('input[name="wheeldiameter"]').value).toString() +
+                ", friction:" +
+                parseFloat(document.querySelector('input[name="friction"]').value).toString() +
+                ", velocity:" +
+                parseFloat(document.querySelector('input[name="velocity"]').value).toString() +
+                ", safety factor:" +
+                parseFloat(document.querySelector('input[name="safetyfactor"]').value).toString(),
+            oStrOut:
+                "weighttotal: " +
+                parseFloat(document.querySelector('input[name="weighttotal"]').value).toString() +
+                ", drivingpower: " +
+                parseFloat(document.querySelector('input[name="drivingpower"]').value).toString() +
+                ", drivingmotorspeed: " +
+                parseFloat(document.querySelector('input[name="drivingmotorspeed"]').value).toString() +
+                ", weightsteel: " +
+                parseFloat(document.querySelector('input[name="weightsteel"]').value).toString() +
+                ", weightstst: " +
+                parseFloat(document.querySelector('input[name="weightstst"]').value).toString() +
+                ", liftingpower: " +
+                parseFloat(document.querySelector('input[name="liftingpower"]').value).toString() +
+                ", motortorq: " +
+                parseFloat(document.querySelector('input[name="MotorTorq"]').value).toString() +
+                ", motortorqlimiter: " +
+                parseFloat(document.querySelector('input[name="MotorTorqLimiter"]').value).toString() +
+                ", gearboxtorq: " +
+                parseFloat(document.querySelector('input[name="GearboxTorq"]').value).toString() +
+                ", liftingmotortorq: " +
+                parseFloat(document.querySelector('input[name="LiftingMotorTorq"]').value).toString() +
+                ", liftingmotortorqlimiter: " +
+                parseFloat(document.querySelector('input[name="LiftingMotorTorqLimiter"]').value).toString() +
+                ", liftingmotorspeed: " +
+                parseFloat(document.querySelector('input[name="liftingmotorspeed"]').value).toString() +
+                ", liftinggearboxtorq: " +
+                parseFloat(document.querySelector('input[name="LiftingGearboxTorq"]').value).toString(),
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    });
+</script>
+
+<style>
+    .preview-img {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    input.form-control {
+        color: blue;
+    }
+
+    .data-name {
+        font-weight: 500;
+        padding-top: 0.4rem;
+    }
+</style>
+{% endblock %}

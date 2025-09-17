@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block title %}Circular Tanks - My Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Circular Tanks</h1>
+
+    <div class="row">
+        <!-- Input Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Inputs</div>
+                <div class="card-body">
+                    <form id="inputForm">
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Tank Diameter (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="tankdiameter" value="5000" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Tank Height (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="tankheight" value="5000" style="color: blue;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">Outputs</div>
+                <div class="card-body">
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Tank Weight (KG)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="tankweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Tank Volume (m3)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="tankvolume" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Shell Th (mm)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="shellth" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Base Th (mm)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="baseth" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Shell Weight (KG)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="shellweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Base Weight (KG)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="baseweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Base UPN Weight (KG)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="baseupnweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Cover Weight (KG)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="coverweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Picture Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">Picture</div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+                    <img src="#" alt="Diagram" class="preview-img" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+    <div class="text-center mt-2">
+        <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+        <button id="calculatebtn" class="btn btn-primary">Calculate</button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+        const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+        const reqType = "CT";
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.style.display = 'inline-block';
+
+        const inputData = {
+            CT_Diameter: parseFloat(document.querySelector('input[name="tankdiameter"]').value),
+            CT_Height: parseFloat(document.querySelector('input[name="tankheight"]').value),
+        };
+
+        const payload = { reqType, ...inputData };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+            const result = await response.json();
+            document.querySelector('input[name="tankweight"]').value = result.O_Tank_Weight || "0";
+            document.querySelector('input[name="tankvolume"]').value = result.O_Tank_Volume || "0";
+            document.querySelector('input[name="shellth"]').value = result.O_Tank_Shell_Th || "0";
+            document.querySelector('input[name="baseth"]').value = result.O_Tank_Base_Th || "0";
+            document.querySelector('input[name="shellweight"]').value = result.O_Tank_Shell_Weight || "0";
+            document.querySelector('input[name="baseweight"]').value = result.O_Tank_Base_Weight || "0";
+            document.querySelector('input[name="baseupnweight"]').value = result.O_Tank_Base_UPN_Weight || "0";
+            document.querySelector('input[name="coverweight"]').value = result.O_Tank_Cover_Weight || "0";
+        } catch (error) {
+            console.error("API Error:", error);
+            alert("Failed to fetch result.");
+        } finally {
+            spinner.style.display = 'none';
+        }
+
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "CT";
+
+        const inputData2 = {
+            oStrIn:
+                "tankdiameter: " +
+                parseFloat(document.querySelector('input[name="tankdiameter"]').value).toString() +
+                ", tankheight: " +
+                parseFloat(document.querySelector('input[name="tankheight"]').value).toString(),
+            oStrOut:
+                "Tank weight: " +
+                parseFloat(document.querySelector('input[name="tankweight"]').value).toString() +
+                ", Tank volume: " +
+                parseFloat(document.querySelector('input[name="tankvolume"]').value).toString() +
+                ", Shell Th: " +
+                parseFloat(document.querySelector('input[name="shellth"]').value).toString() +
+                ", Base Th: " +
+                parseFloat(document.querySelector('input[name="baseth"]').value).toString() +
+                ", Shell Weight: " +
+                parseFloat(document.querySelector('input[name="shellweight"]').value).toString() +
+                ", Base Weight: " +
+                parseFloat(document.querySelector('input[name="baseweight"]').value).toString() +
+                ", Base upn Weight: " +
+                parseFloat(document.querySelector('input[name="baseupnweight"]').value).toString() +
+                ", Cover Weight: " +
+                parseFloat(document.querySelector('input[name="coverweight"]').value).toString(),
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    });
+</script>
+
+<style>
+    .preview-img {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    input.form-control {
+        color: blue;
+    }
+
+    .data-name {
+        font-weight: 500;
+        padding-top: 0.4rem;
+    }
+</style>
+{% endblock %}

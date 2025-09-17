@@ -1,0 +1,640 @@
+{% extends 'base.html' %}
+
+{% block title %}Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Penstocks Actuator</h1>
+
+    <div class="row">
+      <!-- Input Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">Inputs</div>
+          <div class="card-body">
+            <form id="inputForm">
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Gate_Width (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="Gate_Width" value="1000" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Gate_Height (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="Gate_Height" value="1000" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Water_Depth (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="Water_Depth" value="1000" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Stem_D (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="Stem_D" value="30" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Nut_Length (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="Nut_Length" value="50" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Pitch (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="Pitch" value="6" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Load_Weight (KG)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="Load_Weight" value="500" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Time (Mint)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="Time" value="3" />
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white">Outputs</div>
+          <div class="card-body">
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Speed (rpm)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Speed_rpm" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Torque_Total (N.m)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Torque_Total" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Power (Wat)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Power" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Manual_Force (N) (max 200)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Manual_Force" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Stress_Shear (MPa)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Stress_Shear" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Stress_Axial (MPa)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Stress_Axial_Nominal" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Stress_Bearing (MPa) (max 10)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Stress_Bearing" value="0" style="color: rgb(255, 0, 0);" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Stress_Bending (MPa)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Stress_Bending" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Stress_Total (MPa)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Stress_Total" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Safty_Factor (min 2)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Safty_Factor" value="0" style="color: rgb(255, 0, 0);" />
+              </div>
+            </div>
+            
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Picture Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-info text-white">Picture</div>
+          <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+            <img src="#" alt="Diagram" class="preview-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+        <div class="text-center mt-2">
+          <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+      <button id="calculatebtn" class="btn btn-primary me-3">Calculate</button>      
+      <button id="reportbtn" class="btn btn-secondary" onclick="generateWord()">Report</button>
+      
+
+      <!-- Trigger button -->
+      <button id="openModalBtn">🔧 Suggest Parameters </button>
+
+      <!-- The Modal -->
+      <div id="machineModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <iframe id="machineFrame" src="PNScrewTestingNew.html"></iframe>
+        </div>
+      </div>
+      
+    
+        
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+
+
+
+
+
+
+
+
+<style>
+  /* ===== Button Styling ===== */
+  #openModalBtn {
+    background-color: #ff7b00;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+  #openModalBtn:hover {
+    background-color: #e66a00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  }
+
+  /* ===== Modal Background ===== */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    animation: fadeIn 0.3s ease;
+  }
+
+  /* ===== Modal Content ===== */
+  .modal-content {
+    position: relative;
+    margin: 4% auto;
+    width: 85%;
+    max-width: 1000px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    overflow: hidden;
+    transform: scale(0.95);
+    opacity: 0;
+    animation: popIn 0.3s forwards;
+  }
+
+  /* ===== Close Button ===== */
+  .close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 10;
+  }
+  .close:hover {
+    color: #ff7b00;
+  }
+
+  /* ===== Iframe Styling ===== */
+  #machineFrame {
+    width: 100%;
+    height: 70vh;
+    border: none;
+  }
+
+  /* ===== Animations ===== */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes popIn {
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const modal = document.getElementById("machineModal");
+  const btn = document.getElementById("openModalBtn");
+  const span = document.querySelector(".close");
+
+  btn.onclick = () => modal.style.display = "block";
+  span.onclick = () => modal.style.display = "none";
+  window.onclick = (event) => {
+    if (event.target === modal) modal.style.display = "none";
+  };
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.0/docx.umd.min.js"></script>
+
+
+
+<script>
+
+  document.getElementById('calculatebtn').addEventListener('click', async function () {
+    const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+    const reqType = "PScrew";
+    const spinner = document.getElementById('loadingSpinner');
+    spinner.style.display = 'inline-block';
+
+    const inputData = {
+      Gate_Width:   parseFloat(document.querySelector('input[name="Gate_Width"]').value),
+      Gate_Height:  parseFloat(document.querySelector('input[name="Gate_Height"]').value),
+      Water_Depth:  parseFloat(document.querySelector('input[name="Water_Depth"]').value),
+      Stem_D:       parseFloat(document.querySelector('input[name="Stem_D"]').value),
+      Nut_Length:   parseFloat(document.querySelector('input[name="Nut_Length"]').value),
+      Pitch:        parseFloat(document.querySelector('input[name="Pitch"]').value),
+      Load_Weight:  parseFloat(document.querySelector('input[name="Load_Weight"]').value),
+      Time:         parseFloat(document.querySelector('input[name="Time"]').value),
+    };
+
+    const payload = { reqType, ...inputData };
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+      const result = await response.json();
+      document.querySelector('input[name="Speed_rpm"]').value = result.Speed_rpm || "0";
+      document.querySelector('input[name="Torque_Total"]').value = result.Torque_Total || "0";
+      document.querySelector('input[name="Power"]').value = result.Power || "0";
+      document.querySelector('input[name="Manual_Force"]').value = result.Manual_Force || "0";
+      document.querySelector('input[name="Stress_Shear"]').value = result.Stress_Shear || "0";
+      document.querySelector('input[name="Stress_Axial_Nominal"]').value = result.Stress_Axial_Nominal || "0";
+      document.querySelector('input[name="Stress_Bearing"]').value = result.Stress_Bearing || "0";
+      document.querySelector('input[name="Stress_Bending"]').value = result.Stress_Bending || "0";
+      document.querySelector('input[name="Stress_Total"]').value = result.Stress_Total || "0";
+      document.querySelector('input[name="Safty_Factor"]').value = result.Safty_Factor || "0";
+    } catch (error) {
+      console.error("API Error:", error);
+      alert("Failed to fetch result.");
+    } finally {
+      spinner.style.display = 'none';
+    }
+
+
+
+
+
+    const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+    const oStrType = "PScrew";
+
+    const inputData2 = {
+      oStrIn:
+        "Gate_Width: " +
+        parseFloat(document.querySelector('input[name="Gate_Width"]').value).toString() +
+        ", Gate_Height: " +
+        parseFloat(document.querySelector('input[name="Gate_Height"]').value).toString() +
+        ", Water_Depth:" +
+        parseFloat(document.querySelector('input[name="Water_Depth"]').value).toString() +
+        ", Stem_D:" +
+        parseFloat(document.querySelector('input[name="Stem_D"]').value).toString() +
+        ", Nut_Length:" +
+        parseFloat(document.querySelector('input[name="Nut_Length"]').value).toString() +
+        ", Pitch:" +
+        parseFloat(document.querySelector('input[name="Pitch"]').value).toString() +
+        ", Load_Weight:" +
+        parseFloat(document.querySelector('input[name="Load_Weight"]').value).toString() +
+        ", Time:" +
+        parseFloat(document.querySelector('input[name="Time"]').value).toString(),
+      oStrOut:
+        "Speed_rpm: " +
+        parseFloat(document.querySelector('input[name="Speed_rpm"]').value).toString() +
+        ", Torque_Total: " +
+        parseFloat(document.querySelector('input[name="Torque_Total"]').value).toString() +
+        ", Power: " +
+        parseFloat(document.querySelector('input[name="Power"]').value).toString() +
+        ", Manual_Force: " +
+        parseFloat(document.querySelector('input[name="Manual_Force"]').value).toString() +
+        ", Stress_Shear: " +
+        parseFloat(document.querySelector('input[name="Stress_Shear"]').value).toString() +
+        ", Stress_Axial_Nominal: " +
+        parseFloat(document.querySelector('input[name="Stress_Axial_Nominal"]').value).toString() +
+        ", Stress_Bearing: " +
+        parseFloat(document.querySelector('input[name="Stress_Bearing"]').value).toString() +
+        ", Stress_Bending: " +
+        parseFloat(document.querySelector('input[name="Stress_Bending"]').value).toString() +
+        ", Stress_Total: " +
+        parseFloat(document.querySelector('input[name="Stress_Total"]').value).toString() +
+        ", Safty_Factor: " +
+        parseFloat(document.querySelector('input[name="Safty_Factor"]').value).toString(),
+      
+    };
+
+    const payload2 = { oStrType, ...inputData2 };
+
+    try {
+      const response = await fetch(apiUrl2, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload2),
+      });
+
+    } catch (error) {
+      console.error("API Error:", error);
+      alert("Failed to fetch result.");
+    } 
+
+
+
+  });
+
+</script>
+
+
+  <!-- WORD FILE -->
+    <script src="https://unpkg.com/docx@8.4.0/build/index.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+      // Generate Word Document
+      async function generateWord() {
+        const {
+          Document, Packer, Paragraph, TextRun,
+          Table, TableRow, TableCell, WidthType
+        } = window.docx;
+
+        const doc = new Document({
+          sections: [{
+            properties: {},
+            children: [
+              new Paragraph({
+                children: [new TextRun({
+                  text: "Belt Conveyor Calculation Summary",
+                  bold: true,
+                  color: "2E74B5",
+                  size: 28
+                })]
+              }),
+              new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: [
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 1", bold: true, color: "FFFFFF" }))]
+                      }),
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 2", bold: true, color: "FFFFFF" }))]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Belt Length")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="beltlength"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Belt Width")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="beltwidth"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Drum Diameter")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="drumdiameter"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Friction")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="friction"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Velocity")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="velocity"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Factor of Safety")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="factorofsafety"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Belt weight per meter")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="beltweightpermeter"]').value)]
+                      }),
+                    ]
+                  }),
+                ]
+              }),
+
+              new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: [
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 1", bold: true, color: "FFFFFF" }))]
+                      }),
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 2", bold: true, color: "FFFFFF" }))]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Weight")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="weight"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Power")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="power"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Speed")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="speed"]').value)]
+                      }),
+                    ]
+                  }),
+                ]
+              })
+
+            ]
+          }]
+        });
+
+        const blob = await Packer.toBlob(doc);
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Belt_Conveyor.docx";
+        link.click();
+      }
+
+      // Generate Excel File
+      function generateExcel() {
+        const ws_data = [
+          ["Header 1", "Header 2"],
+          ["Row 1, Col 1", "Row 1, Col 2"],
+          ["Row 2, Col 1", "Row 2, Col 2"]
+        ];
+
+        const worksheet = XLSX.utils.aoa_to_sheet(ws_data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+        XLSX.writeFile(workbook, "example.xlsx");
+      }
+    
+    
+    
+    </script>
+    
+  <!-- WORD FILE -->
+  
+  
+  
+
+{% endblock %}

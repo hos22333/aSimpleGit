@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}Rectangular Tanks - My Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Rectangular Tanks</h1>
+
+    <div class="row">
+        <!-- Input Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Inputs</div>
+                <div class="card-body">
+                    <form id="inputForm">
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Length (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="length" value="6000" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Width (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="width" value="3000" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Height (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="height" value="3000" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Shell Th</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="shellth" value="6" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Base Th</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="baseth" value="8" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">N of Splitters</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="nofsplitters" value="2" style="color: blue;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">Outputs</div>
+                <div class="card-body">
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Total Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="totalweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Shell Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="shellweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Base Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="baseweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Splitter Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="splitterweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Volume (m³)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="volume" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Picture Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">Picture</div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+                    <img src="#" alt="Diagram" class="preview-img" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+    <div class="text-center mt-2">
+        <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+        <button id="calculatebtn" class="btn btn-primary">Calculate</button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+        const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+        const reqType = "RT";
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.style.display = 'inline-block';
+
+        const inputData = {
+            RT_Length: parseFloat(document.querySelector('input[name="length"]').value),
+            RT_Width: parseFloat(document.querySelector('input[name="width"]').value),
+            RT_Hight: parseFloat(document.querySelector('input[name="height"]').value),
+            RT_ShellTH: parseFloat(document.querySelector('input[name="shellth"]').value),
+            RT_BaseTH: parseFloat(document.querySelector('input[name="baseth"]').value),
+            RT_N_Spliter: parseFloat(document.querySelector('input[name="nofsplitters"]').value),
+        };
+
+        const payload = { reqType, ...inputData };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+            const result = await response.json();
+            document.querySelector('input[name="totalweight"]').value = result.RT_w10 || "0";
+            document.querySelector('input[name="shellweight"]').value = result.RT_w1 || "0";
+            document.querySelector('input[name="baseweight"]').value = result.RT_w2 || "0";
+            document.querySelector('input[name="splitterweight"]').value = result.RT_w3 || "0";
+            document.querySelector('input[name="volume"]').value = result.RT_v || "0";
+        } catch (error) {
+            console.error("API Error:", error);
+            alert("Failed to fetch result.");
+        } finally {
+            spinner.style.display = 'none';
+        }
+
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "RT";
+
+        const inputData2 = {
+            oStrIn:
+                "length: " +
+                parseFloat(document.querySelector('input[name="length"]').value).toString() +
+                ", width: " +
+                parseFloat(document.querySelector('input[name="width"]').value).toString() +
+                ", height: " +
+                parseFloat(document.querySelector('input[name="height"]').value).toString() +
+                ", shellth: " +
+                parseFloat(document.querySelector('input[name="shellth"]').value).toString() +
+                ", baseth: " +
+                parseFloat(document.querySelector('input[name="baseth"]').value).toString() +
+                ", nofsplitters: " +
+                parseFloat(document.querySelector('input[name="nofsplitters"]').value).toString(),
+            oStrOut:
+                "totalweight: " +
+                parseFloat(document.querySelector('input[name="totalweight"]').value).toString() +
+                ", shellweight: " +
+                parseFloat(document.querySelector('input[name="shellweight"]').value).toString() +
+                ", baseweight: " +
+                parseFloat(document.querySelector('input[name="baseweight"]').value).toString() +
+                ", splitterweight: " +
+                parseFloat(document.querySelector('input[name="splitterweight"]').value).toString() +
+                ", volume: " +
+                parseFloat(document.querySelector('input[name="volume"]').value).toString(),
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    });
+</script>
+
+<style>
+    .preview-img {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    input.form-control {
+        color: blue;
+    }
+
+    .data-name {
+        font-weight: 500;
+        padding-top: 0.4rem;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}Primary Sedimentation Tank - My Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Primary Sedimentation Tank</h1>
+
+    <div class="row">
+        <!-- Input Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Inputs</div>
+                <div class="card-body">
+                    <form id="inputForm">
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Walkway Length</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="walkwaylength" value="10" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Friction Coefficient</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="frictioncoefficient" value="0.3" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Velocity (m/s)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="velocity" value="0.05" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">FOS</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="fos" value="1.5" style="color: blue;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">Outputs</div>
+                <div class="card-body">
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Total Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="totalweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Steel Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="steelweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">St.St. Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="ststweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">v Notch Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="Weight3" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Buffle Plate Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="Weight4" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <br>
+                    
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Power Required (kW)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="powerrequired" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">MotorTorq (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="MotorTorq" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">MotorTorqLimiter (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="MotorTorqLimiter" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Motor Speed (rpm)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="motorspeed" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">GearboxTorq (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="GearboxTorq" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Picture Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">Picture</div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+                    <img src="#" alt="Diagram" class="preview-img" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+    <div class="text-center mt-2">
+        <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+        <button id="calculatebtn" class="btn btn-primary">Calculate</button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+        const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+        const reqType = "PS";
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.style.display = 'inline-block';
+
+        const inputData = {
+            PS_walkway_length: parseFloat(document.querySelector('input[name="walkwaylength"]').value),
+            PS_Friction: parseFloat(document.querySelector('input[name="frictioncoefficient"]').value),
+            PS_Velocity: parseFloat(document.querySelector('input[name="velocity"]').value),
+            PS_FOS: parseFloat(document.querySelector('input[name="fos"]').value),
+        };
+
+        const payload = { reqType, ...inputData };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+            const result = await response.json();
+            document.querySelector('input[name="totalweight"]').value = result.PS_out2 || "0";
+            document.querySelector('input[name="powerrequired"]').value = result.PS_out1 || "0";
+            document.querySelector('input[name="motorspeed"]').value = "0";
+            document.querySelector('input[name="steelweight"]').value = result.PS_out3 || "0";
+            document.querySelector('input[name="ststweight"]').value = result.PS_out4 || "0";
+            document.querySelector('input[name="Weight3"]').value = result.PS_out5 || "0";
+            document.querySelector('input[name="Weight4"]').value = result.PS_out6 || "0";
+            document.querySelector('input[name="MotorTorq"]').value = result.PS_out7 || "0";
+            document.querySelector('input[name="MotorTorqLimiter"]').value = result.PS_out8 || "0";
+            document.querySelector('input[name="GearboxTorq"]').value = result.PS_out9 || "0";
+        } catch (error) {
+            console.error("API Error:", error);
+            alert("Failed to fetch result.");
+        } finally {
+            spinner.style.display = 'none';
+        }
+
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "PS";
+
+        const inputData2 = {
+            oStrIn:
+                "walkwaylength: " +
+                parseFloat(document.querySelector('input[name="walkwaylength"]').value).toString() +
+                ", frictioncoefficient: " +
+                parseFloat(document.querySelector('input[name="frictioncoefficient"]').value).toString() +
+                ", velocity:" +
+                parseFloat(document.querySelector('input[name="velocity"]').value).toString() +
+                ", fos:" +
+                parseFloat(document.querySelector('input[name="fos"]').value).toString(),
+            oStrOut:
+                "totalweight: " +
+                parseFloat(document.querySelector('input[name="totalweight"]').value).toString() +
+                ", powerrequired: " +
+                parseFloat(document.querySelector('input[name="powerrequired"]').value).toString() +
+                ", motorspeed: " +
+                parseFloat(document.querySelector('input[name="motorspeed"]').value).toString() +
+                ", steelweight: " +
+                parseFloat(document.querySelector('input[name="steelweight"]').value).toString() +
+                ", ststweight: " +
+                parseFloat(document.querySelector('input[name="ststweight"]').value).toString() +
+                ", vnotchweight: " +
+                parseFloat(document.querySelector('input[name="Weight3"]').value).toString() +
+                ", buffleplateweight: " +
+                parseFloat(document.querySelector('input[name="Weight4"]').value).toString() +
+                ", motortorq: " +
+                parseFloat(document.querySelector('input[name="MotorTorq"]').value).toString() +
+                ", motortorqlimiter: " +
+                parseFloat(document.querySelector('input[name="MotorTorqLimiter"]'.value)).toString() +
+                ", gearboxtorq: " +
+                parseFloat(document.querySelector('input[name="GearboxTorq"]').value).toString(),
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    });
+</script>
+
+<style>
+    .preview-img {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    input.form-control {
+        color: blue;
+    }
+
+    .data-name {
+        font-weight: 500;
+        padding-top: 0.4rem;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+
+{% block title %}Authorization - My Project{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>User Access Management (15 Pages)</h2>
+    <div>
+        <a href="{% url 'profile' %}" class="btn btn-outline-secondary btn-sm">Back to Profile</a>
+        <a href="/admin/" class="btn btn-outline-dark btn-sm">Django Admin</a>
+    </div>
+</div>
+
+<p class="text-muted">Manage which users can access which of the 15 pages.</p>
+
+<div class="card">
+    <div class="card-body">
+        <div style="overflow-x: auto;">
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Username</th>
+                        <th class="text-center">Page 1</th>
+                        <th class="text-center">Page 2</th>
+                        <th class="text-center">Page 3</th>
+                        <th class="text-center">Page 4</th>
+                        <th class="text-center">Page 5</th>
+                        <th class="text-center">Page 6</th>
+                        <th class="text-center">Page 7</th>
+                        <th class="text-center">Page 8</th>
+                        <th class="text-center">Page 9</th>
+                        <th class="text-center">Page 10</th>
+                        <th class="text-center">Page 11</th>
+                        <th class="text-center">Page 12</th>
+                        <th class="text-center">Page 13</th>
+                        <th class="text-center">Page 14</th>
+                        <th class="text-center">Page 15</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for permission in permissions %}
+                    <tr>
+                        <td>
+                            {{ permission.user.username }}
+                            {% if permission.user.is_superuser %}
+                            <span class="badge bg-warning">Admin</span>
+                            {% endif %}
+                        </td>
+                        
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page1 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page1|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page2 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page2|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page3 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page3|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page4 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page4|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page5 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page5|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page6 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page6|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page7 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page7|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page8 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page8|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page9 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page9|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page10 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page10|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page11 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page11|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page12 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page12|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page13 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page13|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page14 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page14|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-{% if permission.can_access_page15 or permission.user.is_superuser %}success{% else %}danger{% endif %}">
+                                {% if permission.user.is_superuser %}Always{% else %}{{ permission.can_access_page15|yesno:"Yes,No" }}{% endif %}
+                            </span>
+                        </td>
+                        
+                        <td>
+                            {% if not permission.user.is_superuser %}
+                            <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapse{{ permission.id }}" aria-expanded="false">
+                                Edit
+                            </button>
+                            {% else %}
+                            <span class="text-muted">Automatic access</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr class="collapse" id="collapse{{ permission.id }}">
+                        <td colspan="17">
+                            <form method="post" class="p-3 bg-light">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ permission.id }}">
+                                
+                                <h6>Edit permissions for {{ permission.user.username }}:</h6>
+                                <div class="row">
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page1" {% if permission.can_access_page1 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 1</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page2" {% if permission.can_access_page2 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 2</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page3" {% if permission.can_access_page3 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 3</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page4" {% if permission.can_access_page4 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 4</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page5" {% if permission.can_access_page5 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 5</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page6" {% if permission.can_access_page6 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 6</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page7" {% if permission.can_access_page7 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 7</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page8" {% if permission.can_access_page8 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 8</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page9" {% if permission.can_access_page9 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 9</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page10" {% if permission.can_access_page10 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 10</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page11" {% if permission.can_access_page11 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 11</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page12" {% if permission.can_access_page12 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 12</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page13" {% if permission.can_access_page13 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 13</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page14" {% if permission.can_access_page14 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 14</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="page15" {% if permission.can_access_page15 %}checked{% endif %}>
+                                            <label class="form-check-label">Page 15</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-sm mt-2">Update Permissions</button>
+                                <button type="button" class="btn btn-secondary btn-sm mt-2" data-bs-toggle="collapse" data-bs-target="#collapse{{ permission.id }}">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="17" class="text-center">No users found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <div class="alert alert-info">
+        <strong>Note:</strong> Only superusers can access this page. Changes take effect immediately.
+        Superusers have automatic access to all pages.
+    </div>
+</div>
+{% endblock %}

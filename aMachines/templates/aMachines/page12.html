@@ -1,0 +1,612 @@
+{% extends 'base.html' %}
+
+{% block title %}Rectangular Tanks - My Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Channel Penstocks</h1>
+
+    <div class="row">
+      <!-- Input Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">Inputs</div>
+          <div class="card-body">
+            <form id="inputForm">
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Channel Height (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="channelheight" value="1700" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Frame Height Over Channel (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="frameheightoverchannel" value="900" style="color: black;" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Channel Width (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="channelwidth" value="650" />
+                </div>
+              </div>
+              <div class="mb-1 row" style="color: black;">
+                <label class="col-md-6 col-form-label">Gate Margin Width (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="gatemarginwidth" value="150" style="color: black;"  />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Water Level (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="waterlevel" value="475" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Gate Margin Over Water Lv (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="gatemarginoverwaterlv" value="200" style="color: black;"  />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Gate Th (mm)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="gateth" value="6" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Gate Other PLs (KG)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="gateotherpLs" value="10" style="color: black;"  />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">HeadStock (KG)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="headstock" value="15" style="color: black;"  />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Frame Weight Per M</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="frameweightperm" value="12.5" style="color: black;"  />
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white">Outputs</div>
+          <div class="card-body">
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Frame Perimeter</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="frameperimeter" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Frame Weight (KG)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="frameweight" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Gate PL Weight</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="gateplweight" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Gate Stiffener N</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="gatestiffenern" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Gate Stiffener Weight</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="gatestiffenerweight" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Gate Weight (KG)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="gateweight" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Total Weight (KG)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="totalweight" value="0" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Picture Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-info text-white">Picture</div>
+          <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+            <img src="#" alt="Diagram" class="preview-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+        <div class="text-center mt-2">
+          <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+      <button id="calculatebtn" class="btn btn-primary me-3">Calculate</button>
+      
+      <button id="reportbtn" class="btn btn-secondary" onclick="generateWord()">Report</button>
+      <button id="Drawing1" class="btn btn-success " onclick="downloadDXF()">AutoCAD General Drawing</button>
+
+      
+    </div>
+  </div>
+  <br>
+  <br>
+
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.0/docx.umd.min.js"></script>
+
+
+<script>
+  async function downloadDXF() {
+    const channelwidth  = document.getElementsByName('channelwidth')[0].value;
+    const channelheight = document.getElementsByName('channelheight')[0].value;
+    const spinner = document.getElementById('loadingSpinner');
+
+    spinner.style.display = "block";
+
+    const url = `https://f024-190014287304.europe-west1.run.app/?varA=${encodeURIComponent(channelwidth)}&varB=${encodeURIComponent(channelheight)}`;
+
+    // Open the URL in a new tab
+    window.open(url, '_blank');
+
+    // Stop spinner immediately after opening new tab
+    spinner.style.display = "none";
+
+    // --- Logging to Google Sheets ---
+    const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+    const oStrType = "PNch";
+
+    const inputData2 = {
+      oStrIn: "channelwidth: " + parseFloat(channelwidth) +
+              ", channelheight: " + parseFloat(channelheight),
+      oStrOut: "Drawing"
+    };
+
+    const payload2 = { oStrType, ...inputData2 };
+
+    try {
+      const response = await fetch(apiUrl2, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload2),
+      });
+
+      if (!response.ok) {
+        console.error("Logging failed:", await response.text());
+      }
+
+    } catch (error) {
+      console.error("API Error:", error);
+      alert("Failed to log the request.");
+    }
+  }
+</script>
+
+  
+  
+
+
+  <script>
+
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+      const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+      const reqType = "PNch";
+      const spinner = document.getElementById('loadingSpinner');
+      spinner.style.display = 'inline-block';
+
+      const inputData = {
+        PNch_Channel_Height:            parseFloat(document.querySelector('input[name="channelheight"]').value),
+        PNch_Frame_Height_Over_Channel: parseFloat(document.querySelector('input[name="frameheightoverchannel"]').value),
+        PNch_Channel_Width:             parseFloat(document.querySelector('input[name="channelwidth"]').value),
+        PNch_Gate_Margin_Width:         parseFloat(document.querySelector('input[name="gatemarginwidth"]').value),
+        PNch_Water_Lv:                  parseFloat(document.querySelector('input[name="waterlevel"]').value),
+        PNch_Gate_Margin_Over_Water_Lv: parseFloat(document.querySelector('input[name="gatemarginoverwaterlv"]').value),
+        PNch_Gate_Th:                   parseFloat(document.querySelector('input[name="gateth"]').value),
+        PNch_Gate_Other_PLs:            parseFloat(document.querySelector('input[name="gateotherpLs"]').value),
+        PNch_HeadStock:                 parseFloat(document.querySelector('input[name="headstock"]').value),
+        PNch_Frame_Weight_Per_M:        parseFloat(document.querySelector('input[name="frameweightperm"]').value),
+      };
+
+      const payload = { reqType, ...inputData };
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+        const result = await response.json();
+        document.querySelector('input[name="frameperimeter"]').value = result.O_Frame_Perimeter || "0";
+        document.querySelector('input[name="frameweight"]').value = result.O_Frame_Weight || "0";
+        document.querySelector('input[name="gateplweight"]').value = result.O_Gate_PL_Weight || "0";
+        document.querySelector('input[name="gatestiffenern"]').value = result.O_Gate_Stiffener_N || "0";
+        document.querySelector('input[name="gatestiffenerweight"]').value = result.O_Gate_Stiffener_Weight || "0";
+        document.querySelector('input[name="gateweight"]').value = result.O_Gate_Weight || "0";
+        document.querySelector('input[name="totalweight"]').value = result.O_Total_Weight || "0";
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Failed to fetch result.");
+      } finally {
+        spinner.style.display = 'none';
+      }
+
+
+
+
+
+      const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+      const oStrType = "PNch";
+
+      const inputData2 = {
+        oStrIn:
+          "channelheight: " +
+          parseFloat(document.querySelector('input[name="channelheight"]').value).toString() +
+          ", frameheightoverchannel: " +
+          parseFloat(document.querySelector('input[name="frameheightoverchannel"]').value).toString() +
+          ", channelwidth:" +
+          parseFloat(document.querySelector('input[name="channelwidth"]').value).toString() +
+          ", gatemarginwidth:" +
+          parseFloat(document.querySelector('input[name="gatemarginwidth"]').value).toString() +
+          ", waterlevel:" +
+          parseFloat(document.querySelector('input[name="waterlevel"]').value).toString() +
+          ", gatemarginoverwaterlv:" +
+          parseFloat(document.querySelector('input[name="gatemarginoverwaterlv"]').value).toString() +
+          ", gateth:" +
+          parseFloat(document.querySelector('input[name="gateth"]').value).toString() +
+          ", gateotherpLs:" +
+          parseFloat(document.querySelector('input[name="gateotherpLs"]').value).toString() +
+          ", headstock:" +
+          parseFloat(document.querySelector('input[name="headstock"]').value).toString() +
+          ", frameweightperm:" +
+          parseFloat(document.querySelector('input[name="frameweightperm"]').value).toString(),
+        oStrOut:
+          "frameperimeter: " +
+          parseFloat(document.querySelector('input[name="frameperimeter"]').value).toString() +
+          ", frameweight: " +
+          parseFloat(document.querySelector('input[name="frameweight"]').value).toString() +
+          ", gateplweight" +
+          parseFloat(document.querySelector('input[name="gateplweight"]').value).toString() +
+          ", gatestiffenern" +
+          parseFloat(document.querySelector('input[name="gatestiffenern"]').value).toString() +
+          ", gatestiffenerweight" +
+          parseFloat(document.querySelector('input[name="gatestiffenerweight"]').value).toString() +
+          ", gateweight" +
+          parseFloat(document.querySelector('input[name="gateweight"]').value).toString() +
+          ", totalweight" +
+          parseFloat(document.querySelector('input[name="totalweight"]').value).toString(),
+        
+      };
+
+      const payload2 = { oStrType, ...inputData2 };
+
+      try {
+        const response = await fetch(apiUrl2, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload2),
+        });
+
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Failed to fetch result.");
+      } 
+
+
+
+    });
+
+  </script>
+
+  <!-- WORD FILE -->
+    <script src="https://unpkg.com/docx@8.4.0/build/index.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+      // Generate Word Document
+      async function generateWord() {
+        const {
+          Document, Packer, Paragraph, TextRun,
+          Table, TableRow, TableCell, WidthType
+        } = window.docx;
+
+        const doc = new Document({
+          sections: [{
+            properties: {},
+            children: [
+              new Paragraph({
+                children: [new TextRun({
+                  text: "Channel Penstocks Calculation Summary",
+                  bold: true,
+                  color: "2E74B5",
+                  size: 28
+                })]
+              }),
+              new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: [
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 1", bold: true, color: "FFFFFF" }))]
+                      }),
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 2", bold: true, color: "FFFFFF" }))]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Channel Height")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="channelheight"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Frame Height Over Channel")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="frameheightoverchannel"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Channel Width")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="channelwidth"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Gate Margin Width")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="gatemarginwidth"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Water Level")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="waterlevel"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Gate Margin Over Water Lv:")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="gatemarginoverwaterlv"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Gate Th")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="gateth"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Gate Other PLs")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="gateotherpLs"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("HeadStock")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="headstock"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Frame Weight Per M")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="frameweightperm"]').value)]
+                      }),
+                    ]
+                  }),
+                ]
+              }),
+
+              new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: [
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 1", bold: true, color: "FFFFFF" }))]
+                      }),
+                      new TableCell({
+                        shading: { fill: "4472C4" },
+                        children: [new Paragraph(new TextRun({ text: "Header 2", bold: true, color: "FFFFFF" }))]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Frame Perimeter")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="frameperimeter"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Frame Weight (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="frameweight"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Gate PL Weight")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="gateplweight"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Gate Stiffener N")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="gatestiffenern"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Gate Stiffener Weight")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="gatestiffenerweight"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Gate Weight (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="gateweight"]').value)]
+                      }),
+                    ]
+                  }),
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph("Total Weight (KG)")]
+                      }),
+                      new TableCell({
+                        shading: { fill: "D9E1F2" },
+                        children: [new Paragraph(document.querySelector('input[name="totalweight"]').value)]
+                      }),
+                    ]
+                  }),
+                ]
+              })
+
+            ]
+          }]
+        });
+
+        const blob = await Packer.toBlob(doc);
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Channel_Penstocks.docx";
+        link.click();
+      }
+
+      
+    </script>
+    
+
+{% endblock %}

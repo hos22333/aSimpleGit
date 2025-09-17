@@ -1,0 +1,425 @@
+{% extends 'base.html' %}
+
+{% block title %}Basket Screens - My Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Basket Screens</h1>
+
+    <div class="row">
+        <!-- Input Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Inputs</div>
+                <div class="card-body">
+                    <form id="inputForm">
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Bar Diameter (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="bardiameter" value="20" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Bar Spacing (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="barspacing" value="25" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Screen Height (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="screenheight" value="1100" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Screen Width (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="screenwidth" value="700" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Screen Length (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="screenlength" value="500" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Plate Thickness (mm)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="platethickness" value="16" style="color: blue;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">Outputs</div>
+                <div class="card-body">
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Bars Weight (KG)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="barsweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Plate Weight (KG)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="plateweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Total Weight (KG)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="totalweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Picture Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">Picture</div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+                    <img src="#" alt="Diagram" class="preview-img" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+    <div class="text-center mt-2">
+        <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+        <button id="calculatebtn" class="btn btn-primary me-3">Calculate</button>
+        <button id="reportbtn" class="btn btn-secondary me-3" onclick="generateWord()">Report</button>
+        <button id="Drawing1" class="btn btn-success" onclick="downloadDXF()">AutoCAD General Drawing</button>
+    </div>
+</div>
+
+<!-- Additional JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.0/docx.umd.min.js"></script>
+<script>
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+        const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+        const reqType = "BS";
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.style.display = 'inline-block';
+
+        const inputData = {
+            BS_Bar_Dia: parseFloat(document.querySelector('input[name="bardiameter"]').value),
+            BS_Bar_Space: parseFloat(document.querySelector('input[name="barspacing"]').value),
+            BS_Screen_Height: parseFloat(document.querySelector('input[name="screenheight"]').value),
+            BS_Screen_Width: parseFloat(document.querySelector('input[name="screenwidth"]').value),
+            BS_Screen_Depth: parseFloat(document.querySelector('input[name="screenlength"]').value),
+            BS_Plate_Th: parseFloat(document.querySelector('input[name="platethickness"]').value),
+        };
+
+        const payload = { reqType, ...inputData };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+            const result = await response.json();
+            document.querySelector('input[name="barsweight"]').value = result.O_Weight_allBars || "0";
+            document.querySelector('input[name="plateweight"]').value = result.O_Plate_weight || "0";
+            document.querySelector('input[name="totalweight"]').value = result.O_Total_weight || "0";
+        } catch (error) {
+            console.error("API Error:", error);
+            alert("Failed to fetch result.");
+        } finally {
+            spinner.style.display = 'none';
+        }
+
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "BS";
+
+        const inputData2 = {
+            oStrIn:
+                "bardiameter: " +
+                parseFloat(document.querySelector('input[name="bardiameter"]').value).toString() +
+                ", barspacing: " +
+                parseFloat(document.querySelector('input[name="barspacing"]').value).toString() +
+                ", screenheight:" +
+                parseFloat(document.querySelector('input[name="screenheight"]').value).toString() +
+                ", screenwidth:" +
+                parseFloat(document.querySelector('input[name="screenwidth"]').value).toString() +
+                ", screenlength:" +
+                parseFloat(document.querySelector('input[name="screenlength"]').value).toString() +
+                ", platethickness:" +
+                parseFloat(document.querySelector('input[name="platethickness"]').value).toString(),
+            oStrOut:
+                "barsweight: " +
+                parseFloat(document.querySelector('input[name="barsweight"]').value).toString() +
+                ", plateweight: " +
+                parseFloat(document.querySelector('input[name="plateweight"]').value).toString() +
+                ", totalweight: " +
+                parseFloat(document.querySelector('input[name="totalweight"]').value).toString(),
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    });
+
+    async function downloadDXF() {
+        const varA = document.getElementsByName('screenheight')[0].value;
+        const varB = document.getElementsByName('screenwidth')[0].value;
+        const varC = document.getElementsByName('screenlength')[0].value;
+        const spinner = document.getElementById('loadingSpinner');
+
+        spinner.style.display = "block";
+
+        const url = `https://f028-190014287304.europe-west1.run.app/?varA=${encodeURIComponent(varA)}&varB=${encodeURIComponent(varB)}&varC=${encodeURIComponent(varC)}`;
+
+        // Open the URL in a new tab
+        window.open(url, '_blank');
+
+        // Stop spinner immediately after opening new tab
+        spinner.style.display = "none";
+
+        // --- Logging to Google Sheets ---
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "BS";
+
+        const inputData2 = {
+            oStrIn: "screenheight: " + parseFloat(varA) +
+                    ", screenwidth: " + parseFloat(varB) +
+                    ", screenlength: " + parseFloat(varC),
+            oStrOut: "Drawing"
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+
+            if (!response.ok) {
+                console.error("Logging failed:", await response.text());
+            }
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    }
+
+    // Generate Word Document
+    async function generateWord() {
+        const {
+            Document, Packer, Paragraph, TextRun,
+            Table, TableRow, TableCell, WidthType
+        } = window.docx;
+
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: [
+                    new Paragraph({
+                        children: [new TextRun({
+                            text: "Basket Screens Calculation Summary",
+                            bold: true,
+                            color: "2E74B5",
+                            size: 28
+                        })]
+                    }),
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "4472C4" },
+                                        children: [new Paragraph(new TextRun({ text: "Parameter", bold: true, color: "FFFFFF" }))]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "4472C4" },
+                                        children: [new Paragraph(new TextRun({ text: "Value", bold: true, color: "FFFFFF" }))]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Bar Diameter (mm)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="bardiameter"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Bar Spacing (mm)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="barspacing"]'.value))]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Screen Height (mm)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="screenheight"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Screen Width (mm)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="screenwidth"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Screen Length (mm)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="screenlength"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Plate Thickness (mm)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="platethickness"]').value)]
+                                    }),
+                                ]
+                            }),
+                        ]
+                    }),
+
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "4472C4" },
+                                        children: [new Paragraph(new TextRun({ text: "Result", bold: true, color: "FFFFFF" }))]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "4472C4" },
+                                        children: [new Paragraph(new TextRun({ text: "Value", bold: true, color: "FFFFFF" }))]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Bars Weight (KG)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="barsweight"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Plate Weight (KG)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="plateweight"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Total Weight (KG)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="totalweight"]').value)]
+                                    }),
+                                ]
+                            }),
+                        ]
+                    })
+                ]
+            }]
+        });
+
+        const blob = await Packer.toBlob(doc);
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Basket_Screens.docx";
+        link.click();
+    }
+</script>
+
+<style>
+    .preview-img {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    input.form-control {
+        color: blue;
+    }
+
+    .data-name {
+        font-weight: 500;
+        padding-top: 0.4rem;
+    }
+</style>
+{% endblock %}

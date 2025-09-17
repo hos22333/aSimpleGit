@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+
+{% block title %}Thickener - My Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Thickener</h1>
+
+    <div class="row">
+        <!-- Input Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Inputs</div>
+                <div class="card-body">
+                    <form id="inputForm">
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Diameter</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="diameter" value="10" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">N of Arms</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="nofarms" value="3" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Velocity (m/s)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="velocity" value="0.05" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">FOS</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="fos" value="1.5" style="color: blue;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">Outputs</div>
+                <div class="card-body">
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Total Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="totalweight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Drive Unit Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="DriveUnitWeight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">v Notch Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="Weight3" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Buffle Plate Weight (kg)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="Weight4" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Motor Power (kW)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="powerrequired" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">MotorTorq (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="MotorTorq" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">MotorTorqLimiter (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="MotorTorqLimiter" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Motor Speed (rpm)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="motorspeed" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">GearboxTorq (N.m)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="GearboxTorq" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Recommended Pipe Diameter</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="recommendedpipediameter" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Pinion Teeth</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="pinionteeth" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Center Bearing Curve</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="Curve" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Picture Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">Picture</div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+                    <img src="#" alt="Diagram" class="preview-img" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+    <div class="text-center mt-2">
+        <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+        <button id="calculatebtn" class="btn btn-primary me-3">Calculate</button>
+        <button id="Drawing1" class="btn btn-success" onclick="downloadDXF()">AutoCAD General Drawing</button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+        const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+        const reqType = "TH";
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.style.display = 'inline-block';
+
+        const inputData = {
+            TH_diameter: parseFloat(document.querySelector('input[name="diameter"]').value),
+            TH_n_arm: parseFloat(document.querySelector('input[name="nofarms"]').value),
+            TH_Velocity: parseFloat(document.querySelector('input[name="velocity"]').value),
+            TH_FOS: parseFloat(document.querySelector('input[name="fos"]').value),
+        };
+
+        const payload = { reqType, ...inputData };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+            const result = await response.json();
+            document.querySelector('input[name="totalweight"]').value = result.TH_w || "0";
+            document.querySelector('input[name="powerrequired"]').value = result.TH_p || "0";
+            document.querySelector('input[name="motorspeed"]').value = result.TH_s || "0";
+            document.querySelector('input[name="DriveUnitWeight"]').value = result.TH_out4 || "0";
+            document.querySelector('input[name="Weight3"]').value = result.TH_out5 || "0";
+            document.querySelector('input[name="Weight4"]').value = result.TH_out6 || "0";
+            document.querySelector('input[name="MotorTorq"]').value = result.TH_out7 || "0";
+            document.querySelector('input[name="MotorTorqLimiter"]').value = result.TH_out8 || "0";
+            document.querySelector('input[name="GearboxTorq"]').value = result.TH_out9 || "0";
+            document.querySelector('input[name="recommendedpipediameter"]').value = result.TH_out10 || "0";
+            document.querySelector('input[name="pinionteeth"]').value = result.TH_out11 || "0";
+            document.querySelector('input[name="Curve"]').value = result.TH_out12 || "0";
+        } catch (error) {
+            console.error("API Error:", error);
+            alert("Failed to fetch result.");
+        } finally {
+            spinner.style.display = 'none';
+        }
+
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "TH";
+
+        const inputData2 = {
+            oStrIn:
+                "diameter: " +
+                parseFloat(document.querySelector('input[name="diameter"]').value).toString() +
+                ", nofarms: " +
+                parseFloat(document.querySelector('input[name="nofarms"]').value).toString() +
+                ", velocity:" +
+                parseFloat(document.querySelector('input[name="velocity"]').value).toString() +
+                ", fos:" +
+                parseFloat(document.querySelector('input[name="fos"]').value).toString(),
+            oStrOut:
+                "totalweight: " +
+                parseFloat(document.querySelector('input[name="totalweight"]').value).toString() +
+                ", powerrequired: " +
+                parseFloat(document.querySelector('input[name="powerrequired"]').value).toString() +
+                ", motorspeed: " +
+                parseFloat(document.querySelector('input[name="motorspeed"]').value).toString() +
+                ", driveunitweight: " +
+                parseFloat(document.querySelector('input[name="DriveUnitWeight"]').value).toString() +
+                ", vnotchweight: " +
+                parseFloat(document.querySelector('input[name="Weight3"]').value).toString() +
+                ", buffleplateweight: " +
+                parseFloat(document.querySelector('input[name="Weight4"]').value).toString() +
+                ", motortorq: " +
+                parseFloat(document.querySelector('input[name="MotorTorq"]').value).toString() +
+                ", motortorqlimiter: " +
+                parseFloat(document.querySelector('input[name="MotorTorqLimiter"]').value).toString() +
+                ", gearboxtorq: " +
+                parseFloat(document.querySelector('input[name="GearboxTorq"]').value).toString() +
+                ", recommendedpipediameter: " +
+                parseFloat(document.querySelector('input[name="recommendedpipediameter"]').value).toString() +
+                ", pinionteeth: " +
+                parseFloat(document.querySelector('input[name="pinionteeth"]').value).toString() +
+                ", curve: " +
+                parseFloat(document.querySelector('input[name="Curve"]').value).toString(),
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    });
+
+    async function downloadDXF() {
+        const varA = document.getElementsByName('diameter')[0].value;
+        const varB = document.getElementsByName('diameter')[0].value;
+        const varC = document.getElementsByName('diameter')[0].value;
+        const varD = document.getElementsByName('diameter')[0].value;
+        const spinner = document.getElementById('loadingSpinner');
+
+        spinner.style.display = "block";
+
+        const url = `https://f034-190014287304.europe-west1.run.app/?varA=${encodeURIComponent(varA)}&varB=${encodeURIComponent(varB)}&varC=${encodeURIComponent(varC)}&varD=${encodeURIComponent(varD)}`;
+
+        // Open the URL in a new tab
+        window.open(url, '_blank');
+
+        // Stop spinner immediately after opening new tab
+        spinner.style.display = "none";
+
+        // --- Logging to Google Sheets ---
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "TH";
+
+        const inputData2 = {
+            oStrIn: "diameter A: " + parseFloat(varA) +
+                    ", diameter B: " + parseFloat(varB) +
+                    ", diameter C: " + parseFloat(varC) +
+                    ", diameter D: " + parseFloat(varD),
+            oStrOut: "Drawing"
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+
+            if (!response.ok) {
+                console.error("Logging failed:", await response.text());
+            }
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    }
+</script>
+
+<style>
+    .preview-img {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    input.form-control {
+        color: blue;
+    }
+
+    .data-name {
+        font-weight: 500;
+        padding-top: 0.4rem;
+    }
+</style>
+{% endblock %}

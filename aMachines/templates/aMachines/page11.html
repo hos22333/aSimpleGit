@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+
+{% block title %}Rectangular Tanks - My Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Rectangular Mixers</h1>
+
+    <div class="row">
+      <!-- Input Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">Inputs</div>
+          <div class="card-body">
+            <form id="inputForm">
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Length (m)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="length" value="1.5" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Width (m)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="width" value="1.5" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Water Depth (m)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="waterdepth" value="1.5" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Tank Depth (m)</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="tankdepth" value="2" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Impeller Coefficient</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="impellercoefficient" value="1.36" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Velocity Gradient</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="velocitygradient" value="600" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">I D Factor</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="idFactor" value="0.5" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Safety Factor</label>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="safetyfactor" value="1.5" />
+                </div>
+              </div>
+              <div class="mb-1 row">
+                <label class="col-md-6 col-form-label">Gearbox Type</label>
+                <div class="col-md-6">
+                  <select id="gearbox" class="form-select" name="gearbox">
+                    <option value="0.95">Helical GearBox</option>
+                    <option value="0.85">Planetry GearBox</option>
+                    <option value="0.7">Worm Gearbox</option>
+                  </select>
+                </div>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white">Outputs</div>
+          <div class="card-body">
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Total Weight (kg)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="totalweight" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Power Required (kW)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="powerrequired" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Torque (N.M)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Torque" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Torque (Req) (N.M)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Torque_req" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Motor Speed (rpm)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="motorspeed" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Impeller Diameter (mm)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="impellerdiameter" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Shaft Length (M)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="shaftlength" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Shaft D (mm)</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="shaftd" value="0" />
+              </div>
+            </div>
+            <div class="mb-1 row">
+              <label class="col-md-6 col-form-label">Type</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" readonly name="Type" value="0" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Picture Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-info text-white">Picture</div>
+          <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+            <img src="#" alt="Diagram" class="preview-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+        <div class="text-center mt-2">
+          <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+      <button id="calculatebtn" class="btn btn-primary me-3">Calculate</button>
+            
+    </div>
+  </div>
+  <br>
+  <br>
+
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.0/docx.umd.min.js"></script>
+
+  <script>
+
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+      const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+      const reqType = "MX";
+      const spinner = document.getElementById('loadingSpinner');
+      spinner.style.display = 'inline-block';
+
+      const inputData = {
+        MX_length:                    parseFloat(document.querySelector('input[name="length"]').value),
+        MX_width:                     parseFloat(document.querySelector('input[name="width"]').value),
+        MX_water_depth:               parseFloat(document.querySelector('input[name="waterdepth"]').value),
+        MX_tank_depth:                parseFloat(document.querySelector('input[name="tankdepth"]').value),
+        MX_impeller_coefficient:      parseFloat(document.querySelector('input[name="impellercoefficient"]').value),
+        MX_velocity_gradient:         parseFloat(document.querySelector('input[name="velocitygradient"]').value),
+        MX_impeller_diameter_factor:  parseFloat(document.querySelector('input[name="idFactor"]').value),
+        MX_safety_factor:             parseFloat(document.querySelector('input[name="safetyfactor"]').value),
+        MX_eff3:                      parseFloat(document.getElementById("gearbox").value)
+      };
+
+      const payload = { reqType, ...inputData };
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+        const result = await response.json();
+        document.querySelector('input[name="totalweight"]').value       = "0";
+        document.querySelector('input[name="powerrequired"]').value     = result.MX_p || "0";
+        document.querySelector('input[name="motorspeed"]').value        = result.MX_s || "0";
+        document.querySelector('input[name="impellerdiameter"]').value  = result.MX_d || "0";
+        document.querySelector('input[name="shaftlength"]').value       = result.MX_shaftL || "0";
+        document.querySelector('input[name="shaftd"]').value            = result.MX_shaftD || "0";
+        document.querySelector('input[name="Type"]').value              = result.MX_Type || "0";
+        document.querySelector('input[name="Torque"]').value            = result.MX_Torque || "0";
+        document.querySelector('input[name="Torque_req"]').value        = result.MX_Torque_req || "0";
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Failed to fetch result.");
+      } finally {
+        spinner.style.display = 'none';
+      }
+
+
+
+
+
+      const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+      const oStrType = "MX";
+
+      const inputData2 = {
+        oStrIn:
+          "length: " +
+          parseFloat(document.querySelector('input[name="length"]').value).toString() +
+          ", width: " +
+          parseFloat(document.querySelector('input[name="width"]').value).toString() +
+          ", waterdepth:" +
+          parseFloat(document.querySelector('input[name="waterdepth"]').value).toString() +
+          ", tankdepth:" +
+          parseFloat(document.querySelector('input[name="tankdepth"]').value).toString() +
+          ", impellercoefficient:" +
+          parseFloat(document.querySelector('input[name="impellercoefficient"]').value).toString() +
+          ", velocitygradient:" +
+          parseFloat(document.querySelector('input[name="velocitygradient"]').value).toString() +
+          ", idFactor:" +
+          parseFloat(document.querySelector('input[name="idFactor"]').value).toString() +
+          ", safetyfactor:" +
+          parseFloat(document.querySelector('input[name="safetyfactor"]').value).toString(),
+        oStrOut:
+          "totalweight: " +
+          parseFloat(document.querySelector('input[name="totalweight"]').value).toString() +
+          ", powerrequired: " +
+          parseFloat(document.querySelector('input[name="powerrequired"]').value).toString() +
+          ", motorspeed" +
+          parseFloat(document.querySelector('input[name="motorspeed"]').value).toString() +
+          ", impellerdiameter" +
+          parseFloat(document.querySelector('input[name="impellerdiameter"]').value).toString() +
+          ", shaftlength" +
+          parseFloat(document.querySelector('input[name="shaftlength"]').value).toString() +
+          ", shaftd" +
+          parseFloat(document.querySelector('input[name="shaftd"]').value).toString() +
+          ", Type" +
+          parseFloat(document.querySelector('input[name="Type"]').value).toString() +
+          ", Torque" +
+          parseFloat(document.querySelector('input[name="Torque"]').value).toString() +
+          ", Torque_req" +
+          parseFloat(document.querySelector('input[name="Torque_req"]').value).toString(),
+        
+      };
+
+      const payload2 = { oStrType, ...inputData2 };
+
+      try {
+        const response = await fetch(apiUrl2, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload2),
+        });
+
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Failed to fetch result.");
+      } 
+
+
+
+    });
+
+  </script>
+
+
+{% endblock %}

@@ -1,0 +1,429 @@
+{% extends 'base.html' %}
+
+{% block title %}Manual Screen - My Project{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4 text-center">Manual Screen</h1>
+
+    <div class="row">
+        <!-- Input Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">Inputs</div>
+                <div class="card-body">
+                    <form id="inputForm">
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Chanel Height (m)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="chanelheight" value="1200" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Channel Width (m)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="channelwidth" value="800" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Water Level (m)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="waterlevel" value="750" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Water Level Margin (m)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="waterlevelmargin" value="100" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Bar Spacing (m)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="barspacing" value="25" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Bar Thickness (m)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="barthickness" value="10" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Bar Width (m)</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="barwidth" value="25" style="color: blue;" />
+                            </div>
+                        </div>
+                        <div class="mb-1 row">
+                            <label class="col-md-6 col-form-label">Angle</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="angle" value="45" style="color: blue;" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">Outputs</div>
+                <div class="card-body">
+                    <div class="mb-1 row">
+                        <label class="col-md-6 col-form-label">Weight (KG)</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" readonly name="weight" value="0" style="color: blue;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Picture Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">Picture</div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="height: 220px;">
+                    <img src="#" alt="Diagram" class="preview-img" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner for Calculate -->
+    <div class="text-center mt-2">
+        <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+        <button id="calculatebtn" class="btn btn-primary me-3">Calculate</button>
+        <button id="reportbtn" class="btn btn-secondary me-3" onclick="generateWord()">Report</button>
+        <button id="Drawing1" class="btn btn-success" onclick="downloadDXF()">AutoCAD General Drawing</button>
+    </div>
+</div>
+
+<!-- Additional JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.0/docx.umd.min.js"></script>
+<script>
+    document.getElementById('calculatebtn').addEventListener('click', async function () {
+        const apiUrl = "https://us-central1-h1000project1.cloudfunctions.net/f01";
+        const reqType = "NS";
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.style.display = 'inline-block';
+
+        const inputData = {
+            NS_Ch_Height:       parseFloat(document.querySelector('input[name="chanelheight"]').value),
+            NS_Ch_Width:        parseFloat(document.querySelector('input[name="channelwidth"]').value),
+            NS_WaterLv:         parseFloat(document.querySelector('input[name="waterlevel"]').value),
+            NS_WaterLv_Margin:  parseFloat(document.querySelector('input[name="waterlevelmargin"]').value),
+            NS_Bar_Spacing:     parseFloat(document.querySelector('input[name="barspacing"]').value),
+            NS_Bar_Th:          parseFloat(document.querySelector('input[name="barthickness"]').value),
+            NS_Bar_Width:       parseFloat(document.querySelector('input[name="barwidth"]').value),
+            NS_Angle:           parseFloat(document.querySelector('input[name="angle"]').value),
+        };
+
+        const payload = { reqType, ...inputData };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+            const result = await response.json();
+            document.querySelector('input[name="weight"]').value = result.O_Weight || "0";
+        } catch (error) {
+            console.error("API Error:", error);
+            alert("Failed to fetch result.");
+        } finally {
+            spinner.style.display = 'none';
+        }
+
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "NS";
+
+        const inputData2 = {
+            oStrIn:
+                "chanelheight: " +
+                parseFloat(document.querySelector('input[name="chanelheight"]').value).toString() +
+                ", channelwidth: " +
+                parseFloat(document.querySelector('input[name="channelwidth"]').value).toString() +
+                ", waterlevel:" +
+                parseFloat(document.querySelector('input[name="waterlevel"]').value).toString() +
+                ", waterlevelmargin:" +
+                parseFloat(document.querySelector('input[name="waterlevelmargin"]').value).toString() +
+                ", barspacing:" +
+                parseFloat(document.querySelector('input[name="barspacing"]').value).toString() +
+                ", barthickness:" +
+                parseFloat(document.querySelector('input[name="barthickness"]').value).toString() +
+                ", barwidth:" +
+                parseFloat(document.querySelector('input[name="barwidth"]').value).toString() +
+                ", angle:" +
+                parseFloat(document.querySelector('input[name="angle"]').value).toString(),
+            oStrOut:
+                "weight: " +
+                parseFloat(document.querySelector('input[name="weight"]').value).toString(),
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    });
+
+    async function downloadDXF() {
+        const chanelheight  = document.getElementsByName('chanelheight')[0].value;
+        const channelwidth  = document.getElementsByName('channelwidth')[0].value;
+        const barthickness  = document.getElementsByName('barthickness')[0].value;
+        const barspacing    = document.getElementsByName('barspacing')[0].value;
+        const angle         = document.getElementsByName('angle')[0].value;
+
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.style.display = "block";
+
+        const url = `https://f022-190014287304.europe-west1.run.app//?varA=${encodeURIComponent(channelwidth)}&varB=${encodeURIComponent(chanelheight)}&varC=${encodeURIComponent(barspacing)}&varD=${encodeURIComponent(barthickness)}&varE=${encodeURIComponent(angle)}`;
+
+        // Open the URL in a new tab
+        window.open(url, '_blank');
+
+        // Stop spinner immediately after opening new tab
+        spinner.style.display = "none";
+
+        // --- Logging to Google Sheets ---
+        const apiUrl2 = "https://function-googlesheet-190014287304.europe-west1.run.app";
+        const oStrType = "NS";
+
+        const inputData2 = {
+            oStrIn: "channelwidth: " + parseFloat(channelwidth) +
+                    ", chanelheight: " + parseFloat(chanelheight) +
+                    ", barspacing: " + parseFloat(barspacing) +
+                    ", barthickness: " + parseFloat(barthickness) +
+                    ", angle: " + parseFloat(angle),
+            oStrOut: "Drawing"
+        };
+
+        const payload2 = { oStrType, ...inputData2 };
+
+        try {
+            const response = await fetch(apiUrl2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload2),
+            });
+
+            if (!response.ok) {
+                console.error("Logging failed:", await response.text());
+            }
+        } catch (error) {
+            console.error("API Error:", error);
+        }
+    }
+
+    // Generate Word Document
+    async function generateWord() {
+        const {
+            Document, Packer, Paragraph, TextRun,
+            Table, TableRow, TableCell, WidthType
+        } = window.docx;
+
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: [
+                    new Paragraph({
+                        children: [new TextRun({
+                            text: "Manual Screen Calculation Summary",
+                            bold: true,
+                            color: "2E74B5",
+                            size: 28
+                        })]
+                    }),
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "4472C4" },
+                                        children: [new Paragraph(new TextRun({ text: "Parameter", bold: true, color: "FFFFFF" }))]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "4472C4" },
+                                        children: [new Paragraph(new TextRun({ text: "Value", bold: true, color: "FFFFFF" }))]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Chanel Height (m)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="chanelheight"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Channel Width (m)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="channelwidth"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Water Level (m)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="waterlevel"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Water Level Margin (m)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="waterlevelmargin"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Bar Spacing (m)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="barspacing"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Bar Thickness (m)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="barthickness"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Bar Width (m)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="barwidth"]').value)]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Angle")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="angle"]').value)]
+                                    }),
+                                ]
+                            }),
+                        ]
+                    }),
+
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "4472C4" },
+                                        children: [new Paragraph(new TextRun({ text: "Result", bold: true, color: "FFFFFF" }))]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "4472C4" },
+                                        children: [new Paragraph(new TextRun({ text: "Value", bold: true, color: "FFFFFF" }))]
+                                    }),
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph("Weight (KG)")]
+                                    }),
+                                    new TableCell({
+                                        shading: { fill: "D9E1F2" },
+                                        children: [new Paragraph(document.querySelector('input[name="weight"]').value)]
+                                    }),
+                                ]
+                            }),
+                        ]
+                    })
+                ]
+            }]
+        });
+
+        const blob = await Packer.toBlob(doc);
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Manual_Screen.docx";
+        link.click();
+    }
+</script>
+
+<style>
+    .preview-img {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    input.form-control {
+        color: blue;
+    }
+
+    .data-name {
+        font-weight: 500;
+        padding-top: 0.4rem;
+    }
+</style>
+{% endblock %}
